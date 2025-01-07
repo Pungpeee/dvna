@@ -1,5 +1,5 @@
 # Damn Vulnerable NodeJS Application
-FROM node:23.3.0-alpine
+FROM node:carbon
 
 WORKDIR /app
 
