@@ -1,0 +1,74 @@
+# name: Unsecured workflows
+ 
+# on:
+#   push:
+#     branches:
+#       main
+ 
+# jobs:
+#   build:
+#     runs-on: thesis-vm
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v3
+
+#       - name: Build image
+#         run: docker build -t pungpeee19/1-small-code-lkt:latest .
+
+#       - name: Push image to Docker Hub
+#         run: |
+#           docker login -u pungpeee19 -p ${{ secrets.DOCKER_HUB_TOKEN }}
+#           docker push pungpeee19/1-small-code-lkt:latest
+ 
+#   deploy:
+#     needs: build
+#     runs-on: ubuntu-latest
+ 
+#     steps:
+#       - name: Set up SSH
+#         uses: webfactory/ssh-agent@v0.5.3
+#         with:
+#           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+#       - name: Deploy to Remote Server
+#         run: |
+#           ssh -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.HOST }} << 'EOF'
+          
+#           # Log in to Docker Hub
+#           echo ${{ secrets.DOCKER_HUB_TOKEN }} | docker login -u pungpeee19 --password-stdin
+
+#           # Pull the latest image
+#           docker pull pungpeee19/1-small-code-lkt:latest
+
+#           # Stop and remove the existing container if it exists
+#           if [ $(docker ps -q -f name=1-small-code-lkt) ]; then
+#             docker stop 1-small-code-lkt
+#             docker rm 1-small-code-lkt
+#           fi
+
+#           # Run the new container
+#           docker run -d --restart=always -p 1001:3000 --name 1-small-code-lkt pungpeee19/1-small-code-lkt:latest
+
+#           # Verify running containers
+#           docker ps -a
+          
+#           EOF
+
+#       # - name: Run StackHawk DAST scan
+#       #   uses: hawkeyesec/scanner-action@v1
+#       #   with:
+#       #     apiKey: ${{ secrets.STACKHAWK_API_KEY }}
+#       #     configFile: hawk.yaml
+          
+
+          
+
+#       # - name: Login to Docker Hub & Deploy code and start Docker container
+#       #   run: |
+#       #       docker login -u pungpeee19 -p ${{ secrets.DOCKER_HUB_TOKEN }}
+#       #       ssh -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.HOST }} 
+#       #       docker pull pungpeee19/1-small-code-lkt:latest
+#       #       docker images
+#       #       docker run -d --restart=always -p 1001:3000 \
+#       #           --name 1-small-code-lkt \
+#       #           pungpeee19/1-small-code-lkt:latest
