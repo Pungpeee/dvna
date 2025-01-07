@@ -3,11 +3,10 @@ FROM node:23.3.0-alpine
 
 WORKDIR /app
 
-COPY . .
+COPY . /app
 
-RUN chmod +x /app/entrypoint.sh \
-	&& npm install
+RUN npm install
 
 EXPOSE 3000
 
-CMD ["bash", "/app/entrypoint.sh"]
+CMD ["bash", "start"]
